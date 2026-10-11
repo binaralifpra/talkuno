@@ -1,0 +1,16 @@
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    // User hanya bisa baca/tulis file di folder miliknya sendiri
+    match /users/{uid}/{allPaths=**} {
+      allow read:  if request.auth != null && request.auth.uid == uid;
+      allow write: if request.auth != null
+                   && request.auth.uid == uid
+                   // Batasi ukuran file maks 200 MB (video)
+                   && request.resource.size < 200 * 1024 * 1024
+                   // Hanya izinkan video files
+                   && request.resource.contentType.matches("video/.*");
+    }
+  }
+}

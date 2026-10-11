@@ -1,0 +1,76 @@
+@import "tailwindcss";
+
+/* ─────────────────────────────────────────────────────────────────
+   TALKUNO DESIGN TOKENS
+   ─────────────────────────────────────────────────────────────────
+   Semua token warna dan font kustom Talkuno didefinisikan di sini.
+   Gunakan token ini di seluruh proyek — JANGAN pakai warna default
+   Tailwind (slate, red, blue, dll) untuk elemen UI utama.
+   ───────────────────────────────────────────────────────────────── */
+@theme {
+  /* ── Warna Kustom ─────────────────────────────────────────────
+     talkuno-coral  → aksen energik, CTA utama (satu per layar)
+     talkuno-teal   → elemen kalem pendukung
+     talkuno-amber  → streak, pencapaian, notifikasi positif
+     talkuno-cream  → latar utama aplikasi
+     talkuno-dark   → teks utama, elemen sidebar
+  */
+  --color-talkuno-coral: #FF6B45;
+  --color-talkuno-teal:  #4F9B8E;
+  --color-talkuno-amber: #F4A623;
+  --color-talkuno-cream: #FAF6F1;
+  --color-talkuno-dark:  #2B2420;
+
+  /* ── Font Kustom ──────────────────────────────────────────────
+     --font-heading → Poppins (weight 500, 600) — judul & label besar
+     --font-body    → Inter  (weight 400, 500) — teks isi, tombol, label kecil
+     Font di-load via next/font/google di app/layout.tsx
+  */
+  --font-heading: var(--font-poppins), sans-serif;
+  --font-body:    var(--font-inter), sans-serif;
+}
+
+/* ─────────────────────────────────────────────────────────────────
+   ATURAN DESAIN WAJIB — BACA DAN IKUTI DI SETIAP HALAMAN
+   ─────────────────────────────────────────────────────────────────
+
+   1. DILARANG gradasi dekoratif pada tombol atau teks.
+      bg-gradient-to-* HANYA boleh untuk overlay fungsional di atas
+      foto/gambar agar teks tetap terbaca, bukan untuk styling UI.
+
+   2. Semua tombol HARUS rounded-full (bentuk pil).
+      DILARANG rounded-md, rounded-lg, atau sudut kotak lain pada tombol.
+
+   3. SATU warna solid (talkuno-coral) untuk SATU aksi utama per layar.
+      Aksi sekunder: gunakan outline/border, BUKAN warna solid lain.
+
+   4. DILARANG menggunakan emoji sebagai ikon di UI manapun,
+      termasuk placeholder teks dan sambutan.
+      SEMUA ikon HARUS menggunakan @tabler/icons-react.
+   ───────────────────────────────────────────────────────────────── */
+
+/* ─── Reset & Base ───────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--color-talkuno-cream);
+  color: var(--color-talkuno-dark);
+  font-family: var(--font-body);
+  font-weight: 400;
+  min-height: 100dvh;
+}
+
+/* Heading default pakai font-heading */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  font-weight: 600;
+}

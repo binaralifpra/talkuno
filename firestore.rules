@@ -1,0 +1,32 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // ─── topics ───────────────────────────────────────────────────────────────
+    // Dapat dibaca oleh semua user yang sudah login.
+    // Tidak dapat ditulis dari client (hanya via Admin SDK / Firebase Console).
+    match /topics/{topicId} {
+      allow read: if request.auth != null;
+      allow write: if false;
+    }
+
+    // ─── users ────────────────────────────────────────────────────────────────
+    // Setiap user hanya bisa baca/tulis dokumen miliknya sendiri,
+    // termasuk semua subkoleksi (days, days/takes, dll.)
+    match /users/{uid} {
+      allow read, write: if request.auth != null && request.auth.uid == uid;
+
+      // Subkoleksi days
+      match /days/{dayNumber} {
+        allow read, write: if request.auth != null && request.auth.uid == uid;
+
+        // Subkoleksi takes (rekaman per hari)
+        // CATATAN: Ini harus dideklarasikan eksplisit — Firestore tidak otomatis
+        // mewariskan rule ke subkoleksi yang lebih dalam.
+        match /takes/{takeId} {
+          allow read, write: if request.auth != null && request.auth.uid == uid;
+        }
+      }
+    }
+  }
+}
